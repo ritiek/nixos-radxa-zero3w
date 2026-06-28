@@ -30,7 +30,17 @@
         format = "sd-aarch64";
         modules = [
           ./configuration.nix
-          { sdImage.compressImage = false; }
+          {
+            sdImage.compressImage = false;
+            sdImage.postBuildCommands =
+              let
+                pkgs = nixpkgs.legacyPackages.${system};
+                uboot = pkgs.ubootRadxaZero3W;
+              in ''
+                dd if=${uboot}/idbloader.img of=$img seek=64 conv=notrunc
+                dd if=${uboot}/u-boot.itb of=$img seek=16384 conv=notrunc
+              '';
+          }
         ];
       };
 
