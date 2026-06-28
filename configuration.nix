@@ -32,6 +32,11 @@
       # Add your WiFi network(s) here:
       # "YourSSID".pskRaw = "paste_output_from_wpa_passphrase_here";
     };
+    # Set regulatory domain so 5GHz channels are usable
+    extraConfig = ''
+      country=IN
+      p2p_disabled=1
+    '';
   };
 
   # Firewall
